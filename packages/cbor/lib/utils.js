@@ -59,6 +59,9 @@ exports.parseCBORint = function parseCBORint(ai, buf) {
       const f = buf.readUInt32BE(0)
       const g = buf.readUInt32BE(4)
       if (f > MAX_SAFE_HIGH) {
+        if (!BI) {
+          throw new Error('This browser does not support BigInt')
+        }
         return (BigInt(f) * BI.SHIFT32) + BigInt(g)
       }
       return (f * SHIFT32) + g
